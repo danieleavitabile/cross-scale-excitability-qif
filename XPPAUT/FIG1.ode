@@ -1,0 +1,17 @@
+u'=1-cos(u)+(1+cos(u))*(al+q+g*s)
+s'=-s/tau
+q'=eps*p
+p'=-eps*q
+par eps=.01,total=500
+par g=10,al=-0.2,tau=1
+init u=0, q=0.20318, p=0
+global 1 u-pi {u=-pi;s=s+1/tau}
+
+@ method=rk4, dt=0.01, total=2000
+@ xp=t, yp=u, xhi=2000, ylo=-3.14, yhi=3.14
+d
+# correspondance with names in the article
+al <-> eta
+g  <->  J
+q  <->  I
+p  <->  I'
