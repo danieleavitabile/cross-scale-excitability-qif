@@ -1,0 +1,31 @@
+#----------------------------------
+# XPPAUT file to reproduce Figure 4
+# panels (a) and (b)
+#----------------------------------
+
+# ODEs
+r' = Delta/pi + 2*r*v
+v' = v^2  - pi^2*r^2 + J*s + K
+s' = (-s+r)/tau
+K' =  eps*Q
+Q' = -eps*(K-etabar)
+
+# Parameters
+par Delta=1
+par etabar=-15.1, J=15
+par tau=0.002
+par eps=0.05
+
+# Initial conditions DOWN-DOWN
+init r=0.1114537, v=-1.397271, s=0.11144
+init K=-3.41241, Q=3.181865
+# Initial conditions DOWN-UP
+# init r=0.1114537, v=-1.397271, s=0.11144
+# init K=-3.412, Q=3.181865
+
+# Numerics
+@ method=rk4,dt=0.001,total=500
+@ bound=9000000
+@ maxstor=9000000
+@ xp=K, yp=v, xlo=-20, xhi=1, ylo=-4.5, yhi=1
+done
