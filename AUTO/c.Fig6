@@ -1,0 +1,12 @@
+unames = {1:'R', 2:'V', 3:'S', 4:'K', 5:'Q'}
+parnames = {1: 'DELTA', 2: 'ETABAR', 3: 'J', 4: 'TAU', 5:'EPS', 6:'A', 7:'MAXRMMINR',11:'T'}
+NDIM=   5, IPS =   4, IRS =   0, ILP =   0
+ICP =  ['A','T','MAXRMMINR']
+NTST=  500, NCOL=   4, IAD =   3, ISP =  2, ISW = 1, IPLT= 0, NBC= 6, NINT= 0
+NMX=  1000, NPR=  10, MXBF=  10, IID =   3, ITMX= 8, ITNW= 5, NWTN= 3, JAC= 0
+EPSL= 1e-08, EPSU = 1e-08, EPSS = 1e-6
+DS  =  0.01, DSMIN= 1e-12, DSMAX=  0.1, IADS=   1
+NPAR = 7, THL =  {11: 0.0}, THU =  {}
+UZR={}, UZSTOP = {}
+
+

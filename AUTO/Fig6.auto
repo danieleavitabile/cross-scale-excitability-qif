@@ -1,0 +1,153 @@
+### ETABAR=-6.5
+# continue down-down cycle in A
+run(e='Fig6',c='Fig6',dat='downdownEtabarm6p5',NMX=15000,NPR=5,UZSTOP={'A':6.0})
+sv('downdown_A_Etabarm6p5')
+cl
+!rm -f d.*
+run(e='Fig6',c='Fig6',dat='downdownEtabarm6p5',NMX=859,NPR=1,DS=-0.001,DSMAX=0.005)
+sv('downdown_A_Etabarm6p5_down')
+cl
+!rm -f d.*
+
+### CONTINUE IN ETABAR, STOP AT -5, -3.5 FOR THE DOWN-DOWN SOLUTION
+run(e='Fig6',c='Fig6',s='downdown_A_Etabarm6p5_down',IRS=760,ICP=['ETABAR','T'],NMX=60,NPR=1,UZR={'ETABAR':[-5.0,-3.5]})
+sv('stop_etabar_values_DOWNSOLS')
+cl
+!rm -f d.*
+
+### ETABAR=-5.0
+# continue down-down cycle in A
+run(e='Fig6',c='Fig6',s='stop_etabar_values_DOWNSOLS',IRS='UZ1',NMX=15000,NPR=10,UZSTOP={'A':6.0})
+sv('downdown_A_Etabarm5')
+cl
+!rm -f d.*
+run(e='Fig6',c='Fig6',s='stop_etabar_values_DOWNSOLS',IRS='UZ1',NMX=358,NPR=1,DS=-0.001,DSMAX=0.002)
+sv('downdown_A_Etabarm5_down')
+cl
+!rm -f d.*
+# continue up-up cycle from in A up
+run(e='Fig6',c='Fig6',s='upup_etabar_m3p5_m5',IRS='UZ2',NTST=1000,ISP=0,NMX=3099,NPR=2)
+sv('upup_A_Etabarm5')
+cl
+!rm -f d.*
+run(e='Fig6',c='Fig6',s='upup_etabar_m3p5_m5',IRS='UZ2',NMX=216,NPR=1,DS=-0.001,DSMAX=0.002)
+sv('upup_A_Etabarm5_down')
+cl
+!rm -f d.*
+
+### ETABAR=-3.5
+# continue down-down cycle in A
+run(e='Fig6',c='Fig6',s='stop_etabar_values_DOWNSOLS',IRS='UZ2',NMX=1061,NPR=1,DS=0.001,DSMAX=0.005,NTST=1000,ISP=0)
+sv('downdown_A_Etabarm3p5')
+cl
+!rm -f d.*
+run(e='Fig6',c='Fig6',s='stop_etabar_values_DOWNSOLS',IRS='UZ2',NMX=262,NPR=1,DS=-0.001,DSMAX=0.002,NTST=1000,ISP=0)
+sv('downdown_A_Etabarm3p5_down')
+cl
+!rm -f d.*
+# continue up-up cycle from etabar=-2 down to etabar=-3.5 and -5
+run(e='Fig6',c='Fig6',s='upup_A_Etabar_m2',IRS=4400,ICP=['ETABAR','T','MAXRMMINR'],UZR={'ETABAR':[-3.5,-5.0]},DS='-',NMX=50)
+sv('upup_etabar_m3p5_m5')
+cl
+!rm -f d.*
+# continue up-up cycle from in A up
+run(e='Fig6',c='Fig6',s='upup_etabar_m3p5_m5',IRS='UZ1',NMX=5000,NPR=5,UZSTOP={'A':6.0})
+sv('upup_A_Etabarm3p5')
+cl
+!rm -f d.*
+run(e='Fig6',c='Fig6',s='upup_etabar_m3p5_m5',IRS='UZ1',NMX=216,NPR=1,DS=-0.001,DSMAX=0.002)
+sv('upup_A_Etabarm3p5_down')
+cl
+!rm -f d.*
+
+
+### ETABAR=-2.0
+# continue bursting cycle from etabar=-5 until etabar=-2
+run(e='Fig6',c='Fig6',s='downdown_A_Etabarm5',IRS='UZ1',ICP=['ETABAR','T'],NMX=5000,NPR=5,UZSTOP={'ETABAR':-2.0})
+sv('bursting_Etabar_at_m2')
+cl
+!rm -f d.*
+# continue bursting cycle from etabar=-2 in A from 6 down to 0
+run(e='Fig6',c='Fig6',s='bursting_Etabar_at_m2',IRS='UZ1',NMX=1703,NPR=1,DS=-0.01,DSMAX=0.025)
+sv('upup_A_Etabar_m2')
+cl
+!rm -f d.*
+
+### PLOT FOR ETABAR=-6.5: DOWN-UP CONTINUOUS BRANCH
+dm6p5=loadbd('downdown_A_Etabarm6p5')
+dm6p5d=loadbd('downdown_A_Etabarm6p5_down')
+pl(dm6p5+dm6p5d,use_labels=False,bifurcation_x='A',bifurcation_y='MAXRMMINR',minx=-0.1,maxx=6.0,miny=-0.1,maxy=3)
+# select cycles: 1. tiny canard; 2. headless; 3. with head; 4. bursting
+no=dm6p5(5)
+h=dm6p5(10)
+wh=dm6p5(200)
+bu=dm6p5(950)
+sv(no,'tinycanEtabarm6.dat')
+sv(h,'headlessEtabarm6.dat')
+sv(wh,'withheadEtabarm6.dat')
+sv(bu,'burstingEtabarm6.dat')
+
+
+### PLOT FOR ETABAR=-5: DOWN-UP CONTINUOUS BRANCH **AND** UP-DOWN DISCONTINOUS BRANCH with the maxR-MinR sol. measure
+dm5=loadbd('downdown_A_Etabarm5')
+dm5d=loadbd('downdown_A_Etabarm5_down')
+um5=loadbd('upup_A_Etabarm5')
+um5d=loadbd('upup_A_Etabarm5_down')
+pl(dm5+dm5d+um5+um5d,use_labels=False,bifurcation_x='A',bifurcation_y='MAXRMMINR',minx=-0.1,maxx=6.0,miny=-0.1,maxy=3)
+# select down cycles: 1. tiny canard; 2. headless; 3. with head; 4. bursting
+no=dm5(922)
+h=dm5(926)
+wh=dm5(1100)
+bu=dm5(1650)
+sv(no,'tinycanEtabarm5.dat')
+sv(h,'headlessEtabarm5.dat')
+sv(wh,'withheadEtabarm5.dat')
+sv(bu,'burstingEtabarm5.dat')
+# select up cycles:
+one=um5(4433)
+two=um5(4570)
+three=um5(5200)
+four=um5(5700)
+five=um5(5900)
+six=um5(5940)
+sv(one,'oneEtabarm5.dat')
+sv(two,'twoEtabarm5.dat')
+sv(three,'threeEtabarm5.dat')
+sv(four,'fourEtabarm5.dat')
+sv(five,'fiveEtabarm5.dat')
+sv(six,'sixEtabarm5.dat')
+
+
+### PLOT FOR ETABAR=-3.5: DOWN-UP DISCONTINUOUS BRANCH **AND** UP-DOWN CONTINOUS BRANCH with the maxR-MinR sol. measure
+dm3p5=loadbd('downdown_A_Etabarm3p5')
+dm3p5d=loadbd('downdown_A_Etabarm3p5_down')
+um3p5=loadbd('upup_A_Etabarm3p5')
+um3p5d=loadbd('upup_A_Etabarm3p5_down')
+pl(dm3p5+dm3p5d+um3p5+um3p5d,use_labels=False,bifurcation_x='A',bifurcation_y='MAXRMMINR',minx=-0.1,maxx=6.0,miny=-0.1,maxy=3)
+# select down cycles:
+one=dm3p5(935)
+two=dm3p5(1070)
+three=dm3p5(1367)
+four=dm3p5(1500)
+five=dm3p5(1750)
+six=dm3p5(1857)
+sv(one,'oneEtabarm3p5.dat')
+sv(two,'twoEtabarm3p5.dat')
+sv(three,'threeEtabarm3p5.dat')
+sv(four,'fourEtabarm3p5.dat')
+sv(five,'fiveEtabarm3p5.dat')
+sv(six,'sixEtabarm3p5.dat')
+
+### PLOT FOR ETABAR=-2: UP-DOWN CONTINUOUS BRANCH
+um2=loadbd('upup_A_Etabar_m2')
+pl(um2,use_labels=False,bifurcation_x='A',bifurcation_y='MAXRMMINR',minx=-0.1,maxx=6.0,miny=-0.1,maxy=3)
+# select cycles: 1. tiny canard; 2. headless; 3. with head; 4. bursting
+no=um2(4170)
+h=um2(4000)
+wh=um2(3300)
+bu=um2(3100)
+sv(no,'tinyEtabarm2.dat')
+sv(h,'headlessEtabarm2.dat')
+sv(wh,'withheadEtabarm2.dat')
+sv(bu,'burstingEtabarm2.dat')
+
