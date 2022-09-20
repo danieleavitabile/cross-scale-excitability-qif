@@ -27,5 +27,5 @@ init K=-4.8799, Q=4.28
 @ method=rk4,dt=0.001,total=500
 @ bound=9000000
 @ maxstor=9000000
-@ xp=K, yp=v, xlo=-10, xhi=20, ylo=-3, yhi=3
+@ xp=K, yp=v, xlo=-11, xhi=17.5, ylo=-3, yhi=3
 done
